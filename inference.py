@@ -137,6 +137,9 @@ class DACVAEInference:
         
         # Forward pass through model
         print("Processing through DACVAE...")
+        audio_tensor = audio_tensor[:, :, :9120]
+
+        print('audio_tensor shape: ', audio_tensor.shape)
         out = self.model(audio_tensor, self.sample_rate)
         
         # Extract outputs
@@ -146,7 +149,7 @@ class DACVAEInference:
         z = out['z']
         mu = out['mu']
         logs = out['logs']
-        
+        print('z shape: ', z.shape)
         # Clamp output
         recons_audio = np.clip(recons_audio, -1.0, 1.0)
         
@@ -167,13 +170,13 @@ class DACVAEInference:
 
 def main():
     parser = argparse.ArgumentParser(description="DACVAE Audio Inference")
-    parser.add_argument('--checkpoint', type=str, required=True,
+    parser.add_argument('--checkpoint', type=str, required=False, default="/mnt/nvme/ckpts/24khz/364k_20250702_043748/checkpoint.pt",
                         help='Path to model checkpoint')
-    parser.add_argument('--config', type=str, default=None,
+    parser.add_argument('--config', type=str, default="./config.yml",
                         help='Path to config YAML (optional if config is in checkpoint)')
-    parser.add_argument('--input', type=str, required=True,
+    parser.add_argument('--input', type=str, required=False, default='./output.wav',
                         help='Path to input audio file')
-    parser.add_argument('--output', type=str, default=None,
+    parser.add_argument('--output', type=str, default='./test.wav',
                         help='Path to save output audio (default: input_reconstructed.wav)')
     parser.add_argument('--device', type=str, default='cuda',
                         choices=['cuda', 'cpu'], help='Device to run on')
