@@ -156,6 +156,7 @@ class DACVAEInference:
         # Save if output path provided
         if output_path:
             print(f"Saving reconstructed audio to {output_path}")
+            print('shape of recons_audio: ', recons_audio.shape)
             sf.write(output_path, recons_audio, self.sample_rate)
         
         return recons_audio, z, mu, logs
