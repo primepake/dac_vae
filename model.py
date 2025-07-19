@@ -495,6 +495,7 @@ class DACVAE(BaseModel, CodecMixin):
         # print(f"Audio data shape: {audio_data.shape}")
         length = audio_data.shape[-1]
         audio_data = self.preprocess(audio_data, sample_rate)
+        print('audio_data: ', audio_data.shape)
         z, m, logs = self.encode(audio_data)
         x = self.decode(z)
         return {
