@@ -54,7 +54,7 @@ class AudioLoader:
         self.audio_lists = util.read_sources(
             sources, relative_path=relative_path, ext=ext
         )
-
+        print(f"Found number of audio {len(self.audio_lists)} {self.audio_lists[0]}")
         self.audio_indices = [
             (src_idx, item_idx)
             for src_idx, src in enumerate(self.audio_lists)

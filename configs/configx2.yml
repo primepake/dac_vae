@@ -1,0 +1,128 @@
+# Model setup
+vae:
+  sample_rate: 24000
+  encoder_dim: 64
+  latent_dim: 64
+  encoder_rates: [2, 4, 5, 8]
+  decoder_dim: 1536
+  decoder_rates: [8, 5, 4, 2]
+  d_in: 1
+  d_out: 1
+  weight_init: xavier
+  activation: snake
+  gain: 1.0
+
+discriminator:
+  sample_rate: 24000
+  d_in: 1
+  rates: []
+  periods: [2, 3, 5, 7, 11]
+  fft_sizes: [2048, 1024, 512]
+  bands:
+    - [0.0, 0.1]
+    - [0.1, 0.25]
+    - [0.25, 0.5]
+    - [0.5, 0.75]
+    - [0.75, 1.0]
+
+max_norm: 1000
+max_norm_d: 10
+initial_norm: 1000
+initial_norm_d: 10
+
+amp: false
+batch_size: 128
+val_batch_size: 4
+num_workers: 0
+device: cuda
+num_samples: 530000
+gan_start_step: 0
+num_iters: 500000
+save_iters: 1000
+valid_freq: 1000
+sample_freq: 2000
+val_idx: [0, 1, 2, 3, 4, 5, 6, 7]
+seed: 0
+lambdas:
+  mel/loss: 15.0
+  adv/feat_loss: 2.0
+  adv/gen_loss: 1.0
+  kl/loss: 0.1
+  stft/loss: 0.0
+  waveform/loss: 0.0
+  logs_penalty: 0.0 #0.02
+  grad_penalty: 0.0 #1.0
+  lipschitz_penalty: 0.0 #0.001
+
+VolumeNorm.db: [lufs, -18]
+
+# Transforms
+build_transform.preprocess:
+  - Identity
+build_transform.augment_prob: 0.0
+build_transform.augment:
+  - Identity
+build_transform.postprocess:
+  - Identity
+  - Identity
+  - Identity
+
+# Loss setup
+MultiScaleSTFTLoss:
+  window_lengths: [1024, 2048]
+
+MelSpectrogramLoss:
+  n_mels: [5, 10, 20, 40, 80, 160, 320]
+  window_lengths: [32, 64, 128, 256, 512, 1024, 2048]
+  mel_fmin: [0, 0, 0, 0, 0, 0, 0]
+  mel_fmax: [null, null, null, null, null, null, null]
+  pow: 1.0
+  clamp_eps: 1.0e-5
+  mag_weight: 0.0
+
+# optimizer
+optimizer:
+  type: Adamw
+  weight_decay: 0.001
+  lr: 0.0001
+  scheduler: linearlr # or constantlr
+  warmup_steps: 500
+
+disc_optimizer:
+  type: Adamw
+  weight_decay: 0.001
+  lr: 0.0001
+  scheduler: linearlr # or constantlr
+  warmup_steps: 500
+
+# Data
+train:
+  duration: 0.38
+  n_examples: 10000000
+  without_replacement: true
+  shuffle_loaders: true
+
+val:
+  duration: 5.0
+  n_examples: 100
+  without_replacement: true
+  shuffle_loaders: false
+
+test:
+  duration: 10.0
+  n_examples: 1000
+  without_replacement: true
+  shuffle_loaders: false
+
+train_folders:
+  Emilia_EN:
+    - /data/dataset/emilia/en/EN_B00000
+    - /data/dataset/vivoice
+
+val_folders:
+  Emilia_EN:
+    - /data/dataset/vivoice
+
+test_folders:
+  Emilia_EN:
+    - /data/dataset/vivoice

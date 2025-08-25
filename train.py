@@ -112,13 +112,13 @@ def prepare_dataloader(
     shuffle: bool = True,
     **kwargs,
 ):
-    # sampler = ResumableDistributedSampler(
-    #     dataset,
-    #     start_idx,
-    #     num_replicas=world_size,
-    #     rank=local_rank,
-    #     shuffle=shuffle,
-    # )
+    sampler = ResumableDistributedSampler(
+        dataset,
+        start_idx,
+        num_replicas=world_size,
+        rank=local_rank,
+        shuffle=shuffle,
+    )
 
     sampler = None
     if start_idx > 0:
@@ -126,10 +126,10 @@ def prepare_dataloader(
         indices = list(range(start_idx, len(dataset))) + list(range(start_idx))
         sampler = torch.utils.data.SubsetRandomSampler(indices)
 
-    # if "num_workers" in kwargs:
-    #     kwargs["num_workers"] = max(kwargs["num_workers"] // world_size, 1)
-    # kwargs["batch_size"] = max(kwargs["batch_size"] // world_size, 1)
-    # dataloader = torch.utils.data.DataLoader(dataset, sampler=sampler, **kwargs)
+    if "num_workers" in kwargs:
+        kwargs["num_workers"] = max(kwargs["num_workers"] // world_size, 1)
+    kwargs["batch_size"] = max(kwargs["batch_size"] // world_size, 1)
+    dataloader = torch.utils.data.DataLoader(dataset, sampler=sampler, **kwargs)
     dataloader = torch.utils.data.DataLoader(
         dataset,
         sampler=sampler,
@@ -978,7 +978,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--config_path",
         type=str,
-        default="config.yml",
+        default="configs/configx2.yml",
         help="Path to config YAML",
     )
     parser.add_argument("--run_id", type=str, required=True, help="Run ID for wandb")
