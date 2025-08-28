@@ -2,10 +2,10 @@
 vae:
   sample_rate: 24000
   encoder_dim: 64
-  latent_dim: 64
-  encoder_rates: [2, 4, 5, 8]
+  latent_dim: 80
+  encoder_rates: [2,3,4,4,5]
   decoder_dim: 1536
-  decoder_rates: [8, 5, 4, 2]
+  decoder_rates: [5,4,4,3,2]
   d_in: 1
   d_out: 1
   weight_init: xavier
