@@ -124,8 +124,8 @@ python3 evaluate.py \
 
 | Model | Sample Rate | Config | Download |
 |-------|-------------|---------|----------|
-| dac_vae_24khz_v1 | 24 kHz | config.yml | [64 dim 3x frames](#) |
-| dac_vae_24khz_v1 | 24 kHz | configx2.yml | [80 dim 2x frames](#) |
+| dac_vae_24khz_v1 | 24 kHz | config.yml | [64 dim 3x frames](https://github.com/primepake/dac_vae/releases/tag/64dim-3xframe_rate) |
+| dac_vae_24khz_v1 | 24 kHz | configx2.yml | [80 dim 2x frames](https://github.com/primepake/dac_vae/releases/tag/80dim-2xframe_rate) |
 
 
 ## Citation
