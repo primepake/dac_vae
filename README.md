@@ -107,10 +107,7 @@ dataset/
 ```bash
 torchrun --nnodes=1 --nproc_per_node=4 train.py \
     --run_id my_experiment \
-    --config configs/configx2.yml \
-    --dataset_path /path/to/dataset \
-    --num_epochs 200 \
-    --batch_size 32
+    --config configs/configx2.yml
 ```
 
 ## Evaluation
@@ -120,8 +117,7 @@ Evaluate model performance using:
 ```bash
 python3 evaluate.py \
     --checkpoint checkpoint.pt \
-    --test_dir /path/to/test/audio \
-    --metrics pesq stoi
+    --test_dir /path/to/test/audio
 ```
 
 ## Pretrained Models
