@@ -150,7 +150,7 @@ If you use DAC-VAE, please cite both this work and the original DAC paper:
 
 ## License
 
-This project maintains the same license as the original Descript Audio Codec. See [LICENSE](LICENSE) file for details.
+This project maintains the same license as the original Descript Audio Codec. See [LICENSE](https://github.com/descriptinc/descript-audio-codec/blob/main/LICENSE) file for details.
 
 ## Acknowledgments
 
