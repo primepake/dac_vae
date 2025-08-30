@@ -69,34 +69,6 @@ python3 train.py --run_id factorx2
 # Multi-GPU training (4 GPUs)
 torchrun --nnodes=1 --nproc_per_node=4 train.py --run_id factorx2
 ```
-
-### Python API
-
-```python
-import torch
-from dac_vae import DACVAE
-
-# Load model
-model = DACVAE.load_from_checkpoint("checkpoint.pt")
-model.eval()
-
-# Load audio (assuming 24kHz)
-audio, sr = torchaudio.load("input.wav")
-if sr != 24000:
-    audio = torchaudio.functional.resample(audio, sr, 24000)
-
-# Encode to latent
-with torch.no_grad():
-    latent = model.encode(audio)
-    
-# Decode back to audio
-with torch.no_grad():
-    reconstructed = model.decode(latent)
-
-# Save output
-torchaudio.save("output.wav", reconstructed, 24000)
-```
-
 ## Model Architecture
 
 DAC-VAE preserves most of the original DAC architecture with key modifications:
