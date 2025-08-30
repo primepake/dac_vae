@@ -1,10 +1,10 @@
 python extract_dac_latents.py \
     --root_path /data/dataset \
-    --file_list files.txt \
+    --file_list /data/learnable/speech/files.txt \
     --output_dir /data/dataset/metadata \
-    --checkpoint ./checkpoint.pt \
-    --config ./config.yml \
-    --num_gpus 1 \
+    --checkpoint ./ckpts/300k_20250829_044827/checkpoint.pt\
+    --config ./configs/configx2.yml \
+    --num_gpus 4 \
     --num_decode_samples 10
 
 

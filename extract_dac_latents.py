@@ -168,9 +168,9 @@ def extract_latents_gpu(rank, world_size, args, audio_files):
         result = process_single_audio(audio_path, model, sample_rate, device)
         
         if result['success']:
-            # Create output path: a/b/c/d.wav -> a/b/c/d_latent.pt
+            # Create output path: a/b/c/d.wav -> a/b/c/d_latent2x.pt
             base_path = os.path.splitext(audio_path)[0]  # Remove extension
-            output_path = f"{base_path}_latent.pt"
+            output_path = f"{base_path}_latent2x.pt"
             
             # Create directory if it doesn't exist
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -405,7 +405,13 @@ def main():
         filtered_files = []
         for audio_path in audio_files:
             base_path = os.path.splitext(audio_path)[0]
-            latent_path = f"{base_path}_latent.pt"
+            latent_path = f"{base_path}_latent2x.pt"
+
+            old_latent_path = f"{base_path}_latent.pt"
+            if os.path.exists(old_latent_path):
+                os.remove(old_latent_path)
+                print(f"Removed old latent file: {old_latent_path}")
+
             if not os.path.exists(latent_path):
                 filtered_files.append(audio_path)
         print(f"Skipping {len(audio_files) - len(filtered_files)} existing files")
